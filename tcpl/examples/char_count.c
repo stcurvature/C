@@ -1,15 +1,15 @@
 /* This program counts characters in input */
+/* Ctrl-d will act as EOF character */
 
 #include <stdio.h>
 
 int main(void)
 {
-	long nc = 0;
+	double nc = 0;
 
-	while (getchar() != EOF) {
-		++nc;
-	}
+	for (nc = 0; getchar() != EOF; ++nc)
+		;
 
-	printf("%ld\n", nc);
+	printf("%.0f\n", nc);
 }
 
