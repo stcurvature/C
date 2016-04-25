@@ -24,5 +24,6 @@ int main(void)
 			inspace = 0;
 		}
 	}
+	return 0;
 }
 
