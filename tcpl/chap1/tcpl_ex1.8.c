@@ -22,7 +22,7 @@ int main(void)
 			++tabs;
 		}
 
-		if (c == '\t') {
+		if (c == '\n') {
 			++newlines;
 		}
 	}
