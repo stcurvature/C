@@ -10,7 +10,12 @@
 #define	TRUE	(1)
 #define	FALSE	!(TRUE)
 
+#define	HORIZONTAL_HISTOGRAM (1)
+#define VERTICAL_HISTOGRAM (1)
+
 #define	MAX_WORD_LEN	(32)
+#define	nline()			printf("\n")
+
 
 /* 
  * This array stores the word distribution count 
@@ -20,6 +25,19 @@
 
 int word_distribution[MAX_WORD_LEN + 1];
 
+
+void plot_line(int count) 
+{
+	int i = 0;
+
+	for (i = 0; i < MAX_WORD_LEN; i++) {
+		if (word_distribution[i] >= count) {
+			printf(" *");
+		} else {
+			printf("  ");
+		}
+	}
+}
 
 void print_magnitude(int count)
 {
@@ -42,6 +60,8 @@ int main(void)
 	int inword = FALSE;		/* state : not in word */
 	int inspace = FALSE;	/* state : not in space */
 	int logged = FALSE;		/* state : not yet logged */
+	int max_freq = 0;		/* Maximum occurance of a given word length */
+	int done = FALSE;		/* Task complete flag */
 
 	/* init the storage array */
 	for (i = 0; i < MAX_WORD_LEN; i++) {
@@ -88,6 +108,7 @@ int main(void)
 	}
 #endif	/* PRINT_REPORT */
 
+#ifdef	HORIZONTAL_HISTOGRAM
 	/* horizontal histogram , vertical histogram needs to be figured out */
 
 	for (i = 0; i < MAX_WORD_LEN; i++) {
@@ -95,6 +116,38 @@ int main(void)
 			print_magnitude(word_distribution[i]);
 			printf("\n");
 	}
+#endif	/* HORIZONTAL_HISTOGRAM */
+
+#ifdef	VERTICAL_HISTOGRAM
+
+	/* find the maximum occurance from the given distribution */
+	for (i = 0; i < MAX_WORD_LEN; i++) {
+		if (word_distribution[i] > max_freq) {
+			max_freq = word_distribution[i];
+		}
+	}
+
+
+	nline();
+
+	while (!done) {
+		printf("%2d : ", max_freq);
+		plot_line(max_freq);
+	
+		nline();
+
+		max_freq -= 1;
+		if (max_freq == 0) {
+			done = TRUE;
+		}
+	}
+
+	printf("   :");
+	for (i = 0; i < MAX_WORD_LEN; i++) {
+		printf(" |");
+	}
+#endif	/* VERTICAL_HISTOGRAM */
 
 	return 0;
 }
+
