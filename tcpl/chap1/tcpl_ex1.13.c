@@ -10,7 +10,7 @@
 #define	TRUE	(1)
 #define	FALSE	!(TRUE)
 
-#define	MAX_WORD_LEN	(32)
+#define	MAX_WORD_LEN	(16)
 
 /* 
  * This array stores the word distribution count 
@@ -20,9 +20,17 @@
 
 int word_distribution[MAX_WORD_LEN + 1];
 
+
+void print_magnitude(int count)
+{
+	while(count--) {
+		printf("*");
+	}
+}
+
 /*
  * Known limitation
- *	- period will be added as wordlength
+ *	- period will be treated as a character
  *
  */
 
@@ -70,15 +78,23 @@ int main(void)
 		}
 	}
 
-	printf("len - count\n");
 
+#ifdef	PRINT_REPORT
+	printf("len - count\n");
 	for (i = 0; i < MAX_WORD_LEN; i++) {
 		if (word_distribution[i]) {
 			printf("%2d : %2d\n", i, word_distribution[i]);
 		}
 	}
+#endif	/* PRINT_REPORT */
 
-	/* plotting histogram is pending : Need to figure out */
+	/* horizontal histogram , vertical histogram needs to be figured out */
+
+	for (i = 0; i < MAX_WORD_LEN; i++) {
+			printf("%2d : ", i);
+			print_magnitude(word_distribution[i]);
+			printf("\n");
+	}
 
 	return 0;
 }
