@@ -10,7 +10,7 @@
 #define	TRUE	(1)
 #define	FALSE	!(TRUE)
 
-#define	MAX_WORD_LEN	(16)
+#define	MAX_WORD_LEN	(32)
 
 /* 
  * This array stores the word distribution count 
@@ -98,6 +98,3 @@ int main(void)
 
 	return 0;
 }
-
-
-
