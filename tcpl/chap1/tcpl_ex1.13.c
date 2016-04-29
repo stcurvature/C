@@ -10,7 +10,7 @@
 #define	TRUE	(1)
 #define	FALSE	!(TRUE)
 
-#define	HORIZONTAL_HISTOGRAM (1)
+#define	HORIZONTAL_HISTOGRAM (0)
 #define VERTICAL_HISTOGRAM (1)
 
 #define	MAX_WORD_LEN	(32)
@@ -46,6 +46,67 @@ void print_magnitude(int count)
 	}
 }
 
+/* display - horizontal histogram of word length distribution */
+void display_horizontal_histrogram()
+{
+
+	int i = 0;
+
+	/* horizontal histogram , vertical histogram needs to be figured out */
+	nline();
+	printf("horizontal histogram");
+	nline();
+
+	for (i = 0; i < MAX_WORD_LEN; i++) {
+			printf("%2d : ", i);
+			print_magnitude(word_distribution[i]);
+			printf("\n");
+	}
+
+}
+
+
+/* display - vertical histogram of word length distribution */
+void display_vertical_histogram()
+{
+	int i = 0;
+	int max_freq = 0;		/* Maximum occurance of a given word length */
+	int done = FALSE;		/* Task complete flag */
+
+	nline();
+	printf("vertical histogram");
+	nline();
+
+	/* find the maximum occurance from the given distribution */
+	for (i = 0; i < MAX_WORD_LEN; i++) {
+		if (word_distribution[i] > max_freq) {
+			max_freq = word_distribution[i];
+		}
+	}
+
+
+	nline();
+
+	while (!done) {
+		printf("%2d : ", max_freq);
+		plot_line(max_freq);
+	
+		nline();
+
+		max_freq -= 1;
+		if (max_freq == 0) {
+			done = TRUE;
+		}
+	}
+
+	printf("   :");
+	for (i = 0; i < MAX_WORD_LEN; i++) {
+		printf(" |");
+	}
+}
+
+
+
 /*
  * Known limitation
  *	- period will be treated as a character
@@ -60,8 +121,6 @@ int main(void)
 	int inword = FALSE;		/* state : not in word */
 	int inspace = FALSE;	/* state : not in space */
 	int logged = FALSE;		/* state : not yet logged */
-	int max_freq = 0;		/* Maximum occurance of a given word length */
-	int done = FALSE;		/* Task complete flag */
 
 	/* init the storage array */
 	for (i = 0; i < MAX_WORD_LEN; i++) {
@@ -99,7 +158,7 @@ int main(void)
 	}
 
 
-#ifdef	PRINT_REPORT
+#if	PRINT_REPORT
 	printf("len - count\n");
 	for (i = 0; i < MAX_WORD_LEN; i++) {
 		if (word_distribution[i]) {
@@ -108,44 +167,12 @@ int main(void)
 	}
 #endif	/* PRINT_REPORT */
 
-#ifdef	HORIZONTAL_HISTOGRAM
-	/* horizontal histogram , vertical histogram needs to be figured out */
-
-	for (i = 0; i < MAX_WORD_LEN; i++) {
-			printf("%2d : ", i);
-			print_magnitude(word_distribution[i]);
-			printf("\n");
-	}
+#if	HORIZONTAL_HISTOGRAM
+	display_horizontal_histrogram();
 #endif	/* HORIZONTAL_HISTOGRAM */
 
-#ifdef	VERTICAL_HISTOGRAM
-
-	/* find the maximum occurance from the given distribution */
-	for (i = 0; i < MAX_WORD_LEN; i++) {
-		if (word_distribution[i] > max_freq) {
-			max_freq = word_distribution[i];
-		}
-	}
-
-
-	nline();
-
-	while (!done) {
-		printf("%2d : ", max_freq);
-		plot_line(max_freq);
-	
-		nline();
-
-		max_freq -= 1;
-		if (max_freq == 0) {
-			done = TRUE;
-		}
-	}
-
-	printf("   :");
-	for (i = 0; i < MAX_WORD_LEN; i++) {
-		printf(" |");
-	}
+#if	VERTICAL_HISTOGRAM
+	display_vertical_histogram();
 #endif	/* VERTICAL_HISTOGRAM */
 
 	return 0;
